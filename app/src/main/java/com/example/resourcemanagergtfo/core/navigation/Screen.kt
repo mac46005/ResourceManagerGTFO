@@ -6,6 +6,16 @@ sealed class Screen(
     private val baseRoute: String,
     val arguments: List<Argument>? = null
 ){
+    object Zones: Screen("zones")
+    object AddZone: Screen("add_zone")
+
+    object ZoneDetails: Screen(
+        "zone_details",
+        listOf(
+
+        )
+    )
+
     fun fullRoute(): String{
         return buildString{
             append(baseRoute)
@@ -14,7 +24,6 @@ sealed class Screen(
             }
         }
     }
-
     fun namedNavArguments(): List<NamedNavArgument>{
         val argsList = mutableListOf<NamedNavArgument>()
         arguments!!.forEach { arg ->
