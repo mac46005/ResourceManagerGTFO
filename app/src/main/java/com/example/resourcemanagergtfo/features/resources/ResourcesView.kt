@@ -40,7 +40,7 @@ fun ResourcesView(
 ){
     vm.onLoad(navController, zone)
 
-    val list by vm.loadList().collectAsState(initial = emptyList())
+
     MainView(
         title = vm.title,
         action = {
@@ -56,6 +56,8 @@ fun ResourcesView(
                 .fillMaxHeight(),
             verticalArrangement = Arrangement.SpaceBetween
         ) {
+            val list by vm.loadList().collectAsState(initial = emptyList())
+
             LazyColumn(){
                 items(list!!){
                     Box(modifier = Modifier.clickable { }

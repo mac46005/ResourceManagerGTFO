@@ -25,7 +25,7 @@ class ResourcesVM @Inject constructor(
     override var listInfo: MutableMap<String, Any> = mutableMapOf()
     private var _selectedItem: MutableLiveData<IResourcePack> = MutableLiveData()
     override var selectedItem: LiveData<IResourcePack>? = _selectedItem
-    override var title: String = "Resources from ${listInfo[zoneId].toString()}"
+    override var title: String = ""
     override var headers: List<String> = listOf()
     private var _model: MutableLiveData<IResourcePack> = MutableLiveData()
     override var model: LiveData<IResourcePack>? = _model
@@ -64,6 +64,7 @@ class ResourcesVM @Inject constructor(
         navController = args[0] as NavController
         zoneId = (args[1] as Zone).id
         listInfo[zoneId] = resourceManager.zoneRepo.read(id = zoneId)
+        title = "Resources from Zone_$zoneId"
     }
 
     override fun onBackButtonClicked() {
