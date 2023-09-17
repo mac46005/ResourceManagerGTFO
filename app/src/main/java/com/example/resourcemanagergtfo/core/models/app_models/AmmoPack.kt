@@ -3,7 +3,7 @@ package com.example.resourcemanagergtfo.core.models.app_models
 class AmmoPack(
     override val id: Int,
     override val zoneId: Int,
-    override val isCollected: Boolean = false
+    override var isCollected: Boolean = false
     ) : IResourcePack{
 
 

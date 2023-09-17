@@ -25,7 +25,7 @@ fun ResourceItem(
 ){
     ResourceManagerGTFOTheme() {
         val checkedState = remember {
-            mutableStateOf(false)
+            mutableStateOf(resourcePack.isCollected)
         }
 
         val boxColor by animateColorAsState(targetValue = if(checkedState.value) Color.Green else Color.Transparent)
@@ -39,6 +39,7 @@ fun ResourceItem(
                 checked = checkedState.value,
                 onCheckedChange = {
                     checkedState.value = it
+                    resourcePack.isCollected = it
                 }
             )
             Text(
