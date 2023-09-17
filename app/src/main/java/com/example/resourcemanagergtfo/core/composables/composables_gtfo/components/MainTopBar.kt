@@ -2,6 +2,8 @@ package com.example.resourcemanagergtfo.core.composables.composables_gtfo.compon
 
 import androidx.compose.foundation.layout.BoxScope
 import androidx.compose.foundation.layout.Column
+import androidx.compose.material3.Button
+import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
@@ -18,11 +20,13 @@ fun MainTopBar(
     title: String,
     action: @Composable (BoxScope.() -> Unit)
 ){
-    val mainTitleSize = 50.sp
-    val titleSize = 30.sp
+    val mainTitleSize = 20.sp
+    val titleSize = 20.sp
     ResourceManagerGTFOTheme() {
         Column {
-            HeaderTemplate(annotatedString = buildAnnotatedString{
+            HeaderTemplate(
+                titleAlign = Alignment.Center,
+                annotatedString = buildAnnotatedString{
                 pushStyle(
                     SpanStyle(
                         color = Color.Yellow,
@@ -38,7 +42,16 @@ fun MainTopBar(
                 )
                 append("Resource Manager")
 
-            })
+            },
+                action = {
+                    Button(
+                        modifier = Modifier.align(Alignment.CenterStart),
+                        onClick = {}
+                    ) {
+
+                    }
+                }
+            )
             HeaderTemplate(
                 contentAlignment = Alignment.CenterStart,
                 annotatedString = buildAnnotatedString {

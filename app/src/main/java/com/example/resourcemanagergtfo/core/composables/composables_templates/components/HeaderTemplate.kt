@@ -13,6 +13,7 @@ import androidx.compose.ui.text.AnnotatedString
 fun HeaderTemplate(
     modifier: Modifier = Modifier,
     annotatedString: AnnotatedString,
+    titleAlign: Alignment = Alignment.CenterStart,
     contentAlignment: Alignment = Alignment.Center,
     action: @Composable (BoxScope.() -> Unit) = {}
     ){
@@ -21,6 +22,7 @@ fun HeaderTemplate(
         contentAlignment = contentAlignment
     ){
         Text(
+            modifier = Modifier.align(titleAlign),
             text = annotatedString
         )
         action(this)

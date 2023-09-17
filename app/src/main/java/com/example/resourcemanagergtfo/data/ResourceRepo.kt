@@ -30,7 +30,7 @@ class ResourceRepo @Inject constructor() : ICRUD<IResourcePack,Int>  {
         return flow {
             val list = mutableListOf<IResourcePack>()
             resources.forEach { r ->
-                if(r.zoneId == keys[0] as Int){
+                if(r.zoneId == keys[0]){
                     list.add(r)
                 }
             }

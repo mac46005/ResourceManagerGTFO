@@ -32,6 +32,12 @@ class ResourcesVM @Inject constructor(
     override var model: LiveData<IResourcePack>? = _model
 
 
+    override fun onLoad(vararg args: Any) {
+        navController = args[0] as NavController
+        zoneId = (args[1] as Zone).id
+        title = "Resources from Zone_$zoneId"
+    }
+
     override fun loadList(vararg args: Any): Flow<List<IResourcePack>?> {
         return resourceRepo.read(args)
     }
@@ -54,6 +60,7 @@ class ResourcesVM @Inject constructor(
     }
     override fun submit() {
         resourceRepo.createResources(resourceType = _resourceType.value!!, resourceIds = _resourceNames.value!!, zoneId = zoneId)
+        _resourceNames.value = ""
     }
 
 
@@ -61,11 +68,6 @@ class ResourcesVM @Inject constructor(
         TODO("Not yet implemented")
     }
 
-    override fun onLoad(vararg args: Any) {
-        navController = args[0] as NavController
-        zoneId = (args[1] as Zone).id
-        title = "Resources from Zone_$zoneId"
-    }
 
     override fun onBackButtonClicked() {
         navController!!.navigate(Screen.Zones.fullRoute())

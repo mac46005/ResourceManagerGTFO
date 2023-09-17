@@ -9,6 +9,7 @@ import androidx.compose.foundation.layout.fillMaxHeight
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.items
+import androidx.compose.foundation.text.KeyboardOptions
 import androidx.compose.material3.Button
 import androidx.compose.material3.DropdownMenu
 import androidx.compose.material3.DropdownMenuItem
@@ -22,6 +23,7 @@ import androidx.compose.runtime.livedata.observeAsState
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.text.input.KeyboardType
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.navigation.NavController
 import com.example.resourcemanagergtfo.core.composables.composables_gtfo.views.MainView
@@ -37,24 +39,21 @@ fun ResourcesView(
     vm: ResourcesVM = hiltViewModel()
 ){
     vm.onLoad(navController, zone)
-
+    val list by vm.loadList(zone.id).collectAsState(initial = emptyList())
 
     MainView(
         title = vm.title,
         action = {
-            Button(onClick = {
 
-            }) {
-                Text(text = "RESET")
-            }
-        }) {
+        }
+    ) {
         Column(
             modifier = Modifier
                 .padding(top = it.calculateTopPadding())
                 .fillMaxHeight(),
             verticalArrangement = Arrangement.SpaceBetween
         ) {
-            val list by vm.loadList(zone.id).collectAsState(initial = emptyList())
+
 
             LazyColumn(){
                 items(list!!){
@@ -88,7 +87,11 @@ fun ResourcesView(
                         }
                     }
                 }
-                TextField(value = resourceNameState!!, onValueChange = {vm.resourceNamesChanged(it)})
+                TextField(
+                    value = resourceNameState!!,
+                    onValueChange = {vm.resourceNamesChanged(it)},
+                    keyboardOptions = KeyboardOptions(keyboardType = KeyboardType.Number)
+                )
                 Button(onClick = { vm.submit() }) {
                     Text(text = "Add Resources")
                 }
