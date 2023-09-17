@@ -4,33 +4,32 @@ import com.example.resourcemanagergtfo.core.models.app_models.Zone
 import com.example.resourcemanagergtfo.data.interfaces.ICRUD
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.flow
+import javax.inject.Inject
 
-class ZoneRepo: ICRUD<Zone, String> {
-    private val zones: MutableMap<String, Zone> = mutableMapOf()
+class ZoneRepo @Inject constructor(): ICRUD<Zone, Int> {
+    private val zones: MutableList<Zone> = mutableListOf()
 
 
     override fun create(item: Zone) {
-        zones[item.id] = item
+        zones.add(item)
     }
 
     override fun delete(item: Zone) {
-        zones.remove(item.id)
+        zones.removeIf {zone -> zone.id == item.id }
     }
-    override fun read(id: String): Zone {
-        return zones[id]!!
+    override fun read(id: Int, vararg keys: Any?): Zone? {
+        return zones.find { zone -> zone.id == id }
     }
 
 
-    override fun read(): Flow<List<Zone>?> {
-        return  flow{
-            val list = mutableListOf<Zone>()
-            zones.forEach{str, zone -> list.add(zone)}
-            emit(list)
+    override fun read(vararg keys: Any?): Flow<List<Zone>?> {
+        return  flow {
+            emit(zones.sortedBy { zone ->  zone.id })
         }
     }
 
     override fun update(item: Zone) {
-        zones[item.id] = item
+         TODO()
     }
 
     fun clear(){

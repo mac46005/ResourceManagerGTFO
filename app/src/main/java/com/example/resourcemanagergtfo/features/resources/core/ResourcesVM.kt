@@ -5,23 +5,24 @@ import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.navigation.NavController
 import com.example.resourcemanagergtfo.core.models.app_models.IResourcePack
-import com.example.resourcemanagergtfo.core.models.app_models.ResourceManager
+import com.example.resourcemanagergtfo.core.models.app_models.GTFOResourceManager
 import com.example.resourcemanagergtfo.core.models.app_models.ResourcePackType
 import com.example.resourcemanagergtfo.core.models.app_models.Zone
 import com.example.resourcemanagergtfo.core.models.vm_models.interfaces.IAddItem
 import com.example.resourcemanagergtfo.core.models.vm_models.interfaces.IListDisplayVM
 import com.example.resourcemanagergtfo.core.navigation.Screen
+import com.example.resourcemanagergtfo.data.ResourceRepo
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.Flow
 import javax.inject.Inject
 
 @HiltViewModel
 class ResourcesVM @Inject constructor(
-    private val resourceManager: ResourceManager
+    private val resourceRepo: ResourceRepo
 ): IListDisplayVM<IResourcePack>, IAddItem<IResourcePack>, ViewModel() {
 
     private var navController: NavController? = null
-    private var zoneId: String = ""
+    private var zoneId: Int = 0
     override var listInfo: MutableMap<String, Any> = mutableMapOf()
     private var _selectedItem: MutableLiveData<IResourcePack> = MutableLiveData()
     override var selectedItem: LiveData<IResourcePack>? = _selectedItem
@@ -32,7 +33,7 @@ class ResourcesVM @Inject constructor(
 
 
     override fun loadList(vararg args: Any): Flow<List<IResourcePack>?> {
-        return resourceManager.zoneRepo.read(zoneId).loadResourceList()
+        return resourceRepo.read(args)
     }
 
     override fun onItemSelected(item: IResourcePack) {
@@ -52,7 +53,7 @@ class ResourcesVM @Inject constructor(
         _resourceNames.value = resourceNames
     }
     override fun submit() {
-        resourceManager.zoneRepo.read(zoneId).addResourcesFromString(_resourceType.value!!, _resourceNames.value!!)
+        resourceRepo.createResources(resourceType = _resourceType.value!!, resourceIds = _resourceNames.value!!, zoneId = zoneId)
     }
 
 
@@ -63,7 +64,6 @@ class ResourcesVM @Inject constructor(
     override fun onLoad(vararg args: Any) {
         navController = args[0] as NavController
         zoneId = (args[1] as Zone).id
-        listInfo[zoneId] = resourceManager.zoneRepo.read(id = zoneId)
         title = "Resources from Zone_$zoneId"
     }
 

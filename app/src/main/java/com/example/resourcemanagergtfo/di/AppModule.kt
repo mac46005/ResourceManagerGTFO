@@ -1,6 +1,6 @@
 package com.example.resourcemanagergtfo.di
 
-import com.example.resourcemanagergtfo.core.models.app_models.ResourceManager
+import com.example.resourcemanagergtfo.core.models.app_models.GTFOResourceManager
 import dagger.Module
 import dagger.Provides
 import dagger.hilt.InstallIn
@@ -12,7 +12,7 @@ import javax.inject.Singleton
 class AppModule {
     @Provides
     @Singleton
-    fun providesResourceManager(): ResourceManager{
-        return ResourceManager()
+    fun providesResourceManager(): GTFOResourceManager{
+        return GTFOResourceManager()
     }
 }
