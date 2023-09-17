@@ -12,14 +12,20 @@ import com.example.resourcemanagergtfo.ui.theme.ResourceManagerGTFOTheme
 @Composable
 fun MainView(
     title: String,
+    backButtonVisible: Boolean = true,
+    onBackButtonClicked: () -> Unit = {},
     action: @Composable (BoxScope.() -> Unit),
     content:@Composable (PaddingValues) -> Unit
 ){
-    ResourceManagerGTFOTheme() {
+    ResourceManagerGTFOTheme(
+        dynamicColor = false
+    ) {
         Scaffold(
             topBar = {
                      MainTopBar(
                          title = title,
+                         backButtonVisible = backButtonVisible,
+                         onBackButtonClicked = onBackButtonClicked,
                          action = action
                      )
             },

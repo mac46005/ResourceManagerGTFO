@@ -14,14 +14,10 @@ interface IVM<T> {
     var model: LiveData<T>?
 
 
-
-    fun setModel(model: T)
-    fun getModel(): T
-
     /**
      * Should be used for initializing this view with necessary data
      */
-    fun onLoad(vararg args: Any)
+    fun onViewLoad(vararg args: Any)
 
     /**
      * Acts as the back button pressed function

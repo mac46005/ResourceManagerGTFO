@@ -27,9 +27,15 @@ import androidx.compose.ui.text.input.KeyboardType
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.navigation.NavController
 import com.example.resourcemanagergtfo.core.composables.composables_gtfo.views.MainView
+import com.example.resourcemanagergtfo.core.models.app_models.AmmoPack
+import com.example.resourcemanagergtfo.core.models.app_models.MediPack
 import com.example.resourcemanagergtfo.core.models.app_models.ResourcePackType
+import com.example.resourcemanagergtfo.core.models.app_models.ToolRefill
 import com.example.resourcemanagergtfo.core.models.app_models.Zone
+import com.example.resourcemanagergtfo.features.resources.core.AmmoItem
+import com.example.resourcemanagergtfo.features.resources.core.MediItem
 import com.example.resourcemanagergtfo.features.resources.core.ResourcesVM
+import com.example.resourcemanagergtfo.features.resources.core.ToolItem
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
@@ -38,13 +44,13 @@ fun ResourcesView(
     zone: Zone,
     vm: ResourcesVM = hiltViewModel()
 ){
-    vm.onLoad(navController, zone)
-    val list by vm.loadList(zone.id).collectAsState(initial = emptyList())
+    vm.onViewLoad(navController, zone)
+
 
     MainView(
         title = vm.title,
+        onBackButtonClicked = {vm.onBackButtonClicked() },
         action = {
-
         }
     ) {
         Column(
@@ -53,13 +59,14 @@ fun ResourcesView(
                 .fillMaxHeight(),
             verticalArrangement = Arrangement.SpaceBetween
         ) {
-
+            val list by vm.loadList(zone.id).collectAsState(initial = emptyList())
 
             LazyColumn(){
                 items(list!!){
-                    Box(modifier = Modifier.clickable { }
-                    ){
-                        Text(text = it.toString())
+                    when(it){
+                        is AmmoPack -> AmmoItem(ammoPack = it)
+                        is MediPack -> MediItem(mediPack = it)
+                        is ToolRefill -> ToolItem(toolRefill = it)
                     }
                 }
             }

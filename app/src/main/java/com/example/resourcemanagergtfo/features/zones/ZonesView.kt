@@ -6,6 +6,8 @@ import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.fillMaxHeight
+import androidx.compose.foundation.layout.fillMaxSize
+import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.items
@@ -32,9 +34,10 @@ fun ZonesView(
     navController: NavController,
     vm: ZonesVM = hiltViewModel()
 ){
-    vm!!.onLoad(navController)
+    vm!!.onViewLoad(navController)
     MainView(
         title = "Zones",
+        backButtonVisible = false,
         action = {
             Button(
                 modifier = Modifier.align(Alignment.CenterEnd),
@@ -49,7 +52,7 @@ fun ZonesView(
         Column(
             modifier = Modifier
                 .padding(top = it.calculateTopPadding())
-                .fillMaxHeight(),
+                .fillMaxSize(),
             verticalArrangement = Arrangement.SpaceBetween
         ) {
 
@@ -57,10 +60,16 @@ fun ZonesView(
 
             LazyColumn(){
                 items(list!!){
-                    Box(modifier = Modifier.clickable {
-                        vm.onItemSelected(it)
-                    }){
-                        Text(text = it.toString())
+                    Box(
+                        modifier = Modifier.clickable { 
+                            vm.onItemSelected(it) 
+                        }
+                            .fillMaxWidth(),
+                        contentAlignment = Alignment.Center
+                    ){
+                        Text(
+                            text = it.toString()
+                        )
                     }
                 }
             }
@@ -76,7 +85,8 @@ fun ZonesView(
                     onValueChange = {
                     vm.onNewZoneNameChange(it)
                     },
-                    keyboardOptions = KeyboardOptions(keyboardType = KeyboardType.Number)
+                    keyboardOptions = KeyboardOptions(keyboardType = KeyboardType.Number),
+                    placeholder = { Text(text = "Insert zone id here...")}
                 )
                 Button(
                     onClick = { vm.submit() }

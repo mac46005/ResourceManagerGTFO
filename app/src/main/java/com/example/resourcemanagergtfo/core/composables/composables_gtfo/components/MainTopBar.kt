@@ -3,6 +3,7 @@ package com.example.resourcemanagergtfo.core.composables.composables_gtfo.compon
 import androidx.compose.foundation.layout.BoxScope
 import androidx.compose.foundation.layout.Column
 import androidx.compose.material3.Button
+import androidx.compose.material3.Divider
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
@@ -18,15 +19,16 @@ import com.example.resourcemanagergtfo.ui.theme.ResourceManagerGTFOTheme
 @Composable
 fun MainTopBar(
     title: String,
+    backButtonVisible: Boolean = true,
+    onBackButtonClicked: ()->Unit = {},
     action: @Composable (BoxScope.() -> Unit)
-){
+) {
     val mainTitleSize = 20.sp
     val titleSize = 20.sp
-    ResourceManagerGTFOTheme() {
-        Column {
-            HeaderTemplate(
-                titleAlign = Alignment.Center,
-                annotatedString = buildAnnotatedString{
+    Column {
+        HeaderTemplate(
+            titleAlign = Alignment.Center,
+            annotatedString = buildAnnotatedString {
                 pushStyle(
                     SpanStyle(
                         color = Color.Yellow,
@@ -43,30 +45,34 @@ fun MainTopBar(
                 append("Resource Manager")
 
             },
-                action = {
+            action = {
+                if(backButtonVisible){
                     Button(
                         modifier = Modifier.align(Alignment.CenterStart),
-                        onClick = {}
+                        onClick = onBackButtonClicked,
                     ) {
-
+                        Text(text = "Back")
                     }
                 }
-            )
-            HeaderTemplate(
-                contentAlignment = Alignment.CenterStart,
-                annotatedString = buildAnnotatedString {
-                    pushStyle(
-                        SpanStyle(
-                        fontSize = titleSize
-                        )
-                    )
 
-                    append(title)
-                    pop()
-                },
-                action = action
-            )
-        }
+            }
+        )
+        HeaderTemplate(
+            contentAlignment = Alignment.CenterStart,
+            annotatedString = buildAnnotatedString {
+                pushStyle(
+                    SpanStyle(
+                        fontSize = titleSize
+                    )
+                )
+
+                append(title)
+                pop()
+            },
+            action = action
+        )
+
+        Divider()
     }
 
 }

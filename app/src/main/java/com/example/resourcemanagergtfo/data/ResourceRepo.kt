@@ -49,17 +49,17 @@ class ResourceRepo @Inject constructor() : ICRUD<IResourcePack,Int>  {
     fun createResources(resourceType: ResourcePackType, resourceIds: String, zoneId: Int){
         val ids = resourceIds.split(',')
         when(resourceType){
-            ResourcePackType.AmmoPack -> {
+            ResourcePackType.AMMOPACK -> {
                 for(id in ids){
                     create(AmmoPack(id = id.trim().toInt(), zoneId = zoneId))
                 }
             }
-            ResourcePackType.MediPack -> {
+            ResourcePackType.MEDIPACK -> {
                 for(id in ids){
                     create(MediPack(id = id.trim().toInt(), zoneId = zoneId))
                 }
             }
-            ResourcePackType.ToolRefill -> {
+            ResourcePackType.TOOL_REFILL -> {
                 for(id in ids){
                     create(ToolRefill(id = id.trim().toInt(), zoneId = zoneId))
                 }
