@@ -13,8 +13,8 @@ sealed class Screen(
         "resources",
         listOf(
             Argument.ID.buildNavArgumnet {
-                type = NavType.StringType
-                defaultValue = ""
+                type = NavType.IntType
+                defaultValue = 0
             }
         )
     )

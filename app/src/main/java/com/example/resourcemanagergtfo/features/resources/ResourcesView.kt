@@ -54,7 +54,7 @@ fun ResourcesView(
                 .fillMaxHeight(),
             verticalArrangement = Arrangement.SpaceBetween
         ) {
-            val list by vm.loadList().collectAsState(initial = emptyList())
+            val list by vm.loadList(zone.id).collectAsState(initial = emptyList())
 
             LazyColumn(){
                 items(list!!){

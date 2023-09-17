@@ -34,7 +34,7 @@ class MainActivity : ComponentActivity() {
                     ZonesView(navController = navController)
                 }
                 composable(route = Screen.Resources.fullRoute()){backStack ->
-                    var zone = Zone(id = backStack.arguments!!.getString(Argument.ID.name)!!)
+                    var zone = Zone(id = backStack.arguments!!.getInt(Argument.ID.name)!!)
                     ResourcesView(navController = navController, zone = zone)
                 }
             }
