@@ -8,6 +8,7 @@ import com.example.resourcemanagergtfo.core.models.app_models.ResourceManager
 import com.example.resourcemanagergtfo.core.models.app_models.Zone
 import com.example.resourcemanagergtfo.core.models.vm_models.interfaces.IAddItem
 import com.example.resourcemanagergtfo.core.models.vm_models.interfaces.IListDisplayVM
+import com.example.resourcemanagergtfo.core.navigation.Screen
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.Flow
 import javax.inject.Inject
@@ -31,6 +32,7 @@ class ZonesVM @Inject constructor(
 
     override fun onItemSelected(item: Zone) {
         _selectedItem.value = item
+        navController!!.navigate(Screen.Resources.withArgs(item.id))
     }
 
     private var _newZoneId: MutableLiveData<String> = MutableLiveData("")
@@ -63,5 +65,9 @@ class ZonesVM @Inject constructor(
 
     override fun setModel(model: Zone) {
         TODO("Not yet implemented")
+    }
+
+    fun reset(){
+        resourceManager.zoneRepo.clear()
     }
 }

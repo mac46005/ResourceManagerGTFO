@@ -1,6 +1,7 @@
 package com.example.resourcemanagergtfo.core.navigation
 
 import androidx.navigation.NamedNavArgument
+import androidx.navigation.NavType
 
 sealed class Screen(
     private val baseRoute: String,
@@ -8,6 +9,15 @@ sealed class Screen(
 ){
     object Zones: Screen("zones")
     object AddZone: Screen("add_zone")
+    object Resources: Screen(
+        "resources",
+        listOf(
+            Argument.ID.buildNavArgumnet {
+                type = NavType.StringType
+                defaultValue = ""
+            }
+        )
+    )
 
     object ZoneDetails: Screen(
         "zone_details",

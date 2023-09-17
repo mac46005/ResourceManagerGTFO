@@ -9,6 +9,7 @@ import androidx.compose.foundation.layout.fillMaxHeight
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.items
+import androidx.compose.foundation.text.KeyboardOptions
 import androidx.compose.material3.Button
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.Text
@@ -19,22 +20,26 @@ import androidx.compose.runtime.getValue
 import androidx.compose.runtime.livedata.observeAsState
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.text.input.KeyboardType
 import androidx.hilt.navigation.compose.hiltViewModel
+import androidx.navigation.NavController
 import com.example.resourcemanagergtfo.core.composables.composables_gtfo.views.MainView
 import com.example.resourcemanagergtfo.features.zones.core.ZonesVM
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun ZonesView(
+    navController: NavController,
     vm: ZonesVM = hiltViewModel()
 ){
+    vm!!.onLoad(navController)
     MainView(
         title = "Zones",
         action = {
             Button(
                 modifier = Modifier.align(Alignment.CenterEnd),
                 onClick = {
-
+                    vm.reset()
                 }
             ) {
                 Text(text = "RESET")
@@ -66,10 +71,16 @@ fun ZonesView(
 
 
             Row() {
-                TextField(value = newZoneState!!, onValueChange = {
+                TextField(
+                    value = newZoneState!!,
+                    onValueChange = {
                     vm.onNewZoneNameChange(it)
-                })
-                Button(onClick = { vm.submit() }) {
+                    },
+                    keyboardOptions = KeyboardOptions(keyboardType = KeyboardType.Number)
+                )
+                Button(
+                    onClick = { vm.submit() }
+                ) {
                     Text(text = "Add Zone")
                 }
             }

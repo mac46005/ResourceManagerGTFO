@@ -1,6 +1,7 @@
 package com.example.resourcemanagergtfo.core.models.app_models
 
 import com.example.resourcemanagergtfo.data.ResourceRepo
+import kotlinx.coroutines.flow.Flow
 
 class Zone(
     val id: String
@@ -23,6 +24,10 @@ class Zone(
                 ids.forEach { id -> resourceRepo.create(ToolRefill(id = id.trim())) }
             }
         }
+    }
+
+    fun loadResourceList(): Flow<List<IResourcePack>?>{
+        return resourceRepo.read()
     }
 
     fun delete(item: IResourcePack){

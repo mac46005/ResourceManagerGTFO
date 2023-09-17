@@ -14,7 +14,10 @@ import androidx.navigation.NavGraph
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.compose.rememberNavController
+import com.example.resourcemanagergtfo.core.models.app_models.Zone
+import com.example.resourcemanagergtfo.core.navigation.Argument
 import com.example.resourcemanagergtfo.core.navigation.Screen
+import com.example.resourcemanagergtfo.features.resources.ResourcesView
 import com.example.resourcemanagergtfo.features.zones.ZonesView
 import com.example.resourcemanagergtfo.ui.theme.ResourceManagerGTFOTheme
 import dagger.hilt.android.AndroidEntryPoint
@@ -28,7 +31,11 @@ class MainActivity : ComponentActivity() {
 
             NavHost(navController = navController, startDestination = Screen.Zones.fullRoute()){
                 composable(route = Screen.Zones.fullRoute()){
-                    ZonesView()
+                    ZonesView(navController = navController)
+                }
+                composable(route = Screen.Resources.fullRoute()){backStack ->
+                    var zone = Zone(id = backStack.arguments!!.getString(Argument.ID.name)!!)
+                    ResourcesView(navController = navController, zone = zone)
                 }
             }
         }
